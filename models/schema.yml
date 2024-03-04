@@ -1,1 +1,14 @@
 version : 2 
+sources:
+  - name: raw
+    schema: neobank
+    tables:
+      - name: devices
+        identifier: devices
+      - name: notifications
+        identifier: notifications
+      - name: transactions
+        identifier: transactions
+      - name: users
+        identifier: users
+      
