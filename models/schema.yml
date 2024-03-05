@@ -11,4 +11,3 @@ sources:
         identifier: transactions_cleaned
       - name: users 
         identifier: users_cleaned
-      
