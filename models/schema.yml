@@ -1,0 +1,13 @@
+version : 2 
+sources:
+  - name: cleaned
+    schema: neobank
+    tables:
+      - name: devices
+        identifier: devices_cleaned
+      - name: notifications
+        identifier: notifications_cleaned
+      - name: transactions
+        identifier: transactions_cleaned
+      - name: users 
+        identifier: users_cleaned
