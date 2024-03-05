@@ -25,3 +25,9 @@ sources:
         tests:
           - unique:
               column_name: "user_id"
+
+models:
+  - name: stg_cleaned__devices
+  - name: stg_cleaned__notifications
+  - name: stg_cleaned__transactions
+  - name: stg_cleaned__users
