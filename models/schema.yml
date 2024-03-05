@@ -1,14 +1,14 @@
 version : 2 
 sources:
-  - name: raw
+  - name: cleaned
     schema: neobank
     tables:
       - name: devices
-        identifier: devices
+        identifier: devices_cleaned
       - name: notifications
-        identifier: notifications
+        identifier: notifications_cleaned
       - name: transactions
-        identifier: transactions
-      - name: users
-        identifier: users
+        identifier: transactions_cleaned
+      - name: users 
+        identifier: users_cleaned
       
