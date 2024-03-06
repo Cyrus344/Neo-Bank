@@ -2,7 +2,7 @@ with
 
 source as (
 
-    select * from {{ source('cleaned', 'users') }}
+    select * from {{ source('neobank', 'users') }}
 
 ),
 
@@ -12,13 +12,12 @@ renamed as (
         user_id,
         birth_year,
         country,
-        country_name,
         city,
-        crypto_unlocked,
         created_date,
+        user_settings_crypto_unlocked,
         plan,
-        notifications_push,
-        notifications_email,
+        attributes_notifications_marketing_push,
+        attributes_notifications_marketing_email,
         num_contacts,
         num_referrals,
         num_successful_referrals

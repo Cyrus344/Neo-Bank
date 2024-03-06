@@ -2,17 +2,17 @@ with
 
 source as (
 
-    select * from {{ source('cleaned', 'notifications') }}
+    select * from {{ source('neobank', 'notifications') }}
 
 ),
 
 renamed as (
 
     select
-        user_id,
         reason,
         channel,
         status,
+        user_id,
         created_date
 
     from source

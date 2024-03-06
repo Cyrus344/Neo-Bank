@@ -2,7 +2,7 @@ with
 
 source as (
 
-    select * from {{ source('cleaned', 'devices') }}
+    select * from {{ source('neobank', 'devices') }}
 
 ),
 
