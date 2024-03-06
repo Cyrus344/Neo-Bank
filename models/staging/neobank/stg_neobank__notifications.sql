@@ -13,8 +13,7 @@ renamed as (
         channel,
         status,
         user_id,
-        created_date
-
+        CAST(created_date AS DATETIME) AS created_date
     from source
 
 )

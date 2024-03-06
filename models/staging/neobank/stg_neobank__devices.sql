@@ -13,6 +13,7 @@ renamed as (
         user_id
 
     from source
+    where brand = "Apple" OR brand = "Android" ;
 
 )
 
