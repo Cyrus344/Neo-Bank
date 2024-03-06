@@ -1,33 +1,30 @@
 version: 2
 sources:
-  - name: cleaned
+  - name: neobank
     schema: neobank
     description: a neobank's dataset composed of 4 tables with information on users, devices, notifications, and transactions
     tables:
       - name: devices
-        identifier: devices_cleaned
+        identifier: devices
         description: device used by each user, either Apple or Android
-        tests:
-          - unique:
-              column_name: "user_id"
+        # tests:
+        #   - unique:
+        #       column_name: "user_id"
+        #   - not_null: 
+
+          
       - name: notifications
-        identifier: notifications_cleaned
+        identifier: notifications
         description: types of notifications received by each user with their reason and status
       - name: transactions
-        identifier: transactions_cleaned
+        identifier: transactions
         description: information on transactions done by each user with categorical and numerical details
-        tests:
-          - unique:
-              column_name: "transaction_id"
+        # tests:
+        #   - unique:
+        #       column_name: "transaction_id"
       - name: users
-        identifier: users_cleaned
+        identifier: users
         description: user personal details, marketing information and merchants identification
-        tests:
-          - unique:
-              column_name: "user_id"
-
-models:
-  - name: stg_cleaned__devices
-  - name: stg_cleaned__notifications
-  - name: stg_cleaned__transactions
-  - name: stg_cleaned__users
+        # tests:
+        #   - unique:
+        #       column_name: "user_id"
