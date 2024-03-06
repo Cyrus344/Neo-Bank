@@ -28,3 +28,9 @@ sources:
         # tests:
         #   - unique:
         #       column_name: "user_id"
+      - name: codes_countries
+        identifier: codes_countries
+        description: file with country names and country codes
+        # tests:
+        #   - unique:
+        #       column_name: "alpha_2"
