@@ -1,1 +1,0 @@
-SELECT * FROM {{ ref('stg_cleaned__notifications') }}
