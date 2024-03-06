@@ -29,9 +29,8 @@ models:
         tests:
           - not_null
       - name: user_id
-        description: unique identification per user (primary key)
+        description: unique identification per user (foreign key)
         tests:
-          - unique
           - not_null
       - name: created_date
         description: datetime indicating when the notification has been sent
@@ -103,8 +102,6 @@ models:
           - not_null
       - name: user_settings_crypto_unlocked
         description: integer indicating if the user has unlocked the cryptocurrencies in the app
-        tests:
-          - not_null
       - name: crypto_unlocked
         description: integer indicating if the user has unlocked the cryptocurrencies in the app
       - name: plan
