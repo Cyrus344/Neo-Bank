@@ -1,0 +1,140 @@
+version: 2
+models:
+  - name: stg_neobank__devices
+    description: devices table cleaned from brand outliers
+    columns:
+      - name: brand
+        description: device used by each user, either Apple or Android
+        tests:
+          - not_null
+      - name: user_id
+        description: unique identification per user (primary key)
+        tests:
+          - unique
+          - not_null 
+
+  - name: stg_neobank__notifications
+    description: notifications table cleaned by removing timezone
+    columns:
+      - name: reason
+        description: purpose of the marketing notification
+        tests:
+          - not_null
+      - name: channel
+        description: how the user has been notified, either by sms, push or email
+        tests:
+          - not_null 
+      - name: status
+        description: status of the notification, either 'sent' or 'failed'
+        tests:
+          - not_null
+      - name: user_id
+        description: unique identification per user (primary key)
+        tests:
+          - unique
+          - not_null
+      - name: created_date
+        description: datetime indicating when the notification has been sent
+        tests:
+          - not_null
+
+  - name: stg_neobank__transactions
+    description: notifications table cleaned on column names,
+    columns:
+      - name: transaction_id
+        description: string uniquely identifying the transaction
+        tests:
+          - unique
+          - not_null
+      - name: t_type
+        description: 10 different types of transaction
+        tests:
+          - not_null
+      - name: t_currency
+        description: 35 different currencies
+        tests:
+          - not_null
+      - name: amount_usd
+        description: transaction amount in US dollar
+        tests:
+          - not_null
+      - name: t_state
+        description: 6 different states of a transaction
+        tests:
+          - not_null
+      - name: ea_cardholderpresence
+        description: string indicating if the card holder was present when the transaction happened
+      - name: mcc
+        description: Merchant Category Code (MCC)
+      - name: merch_city
+        description: merchant's city name (uncleaned)
+      - name: merch_country
+        description: merchant's country in 3 digit ISO
+      - name: direction
+        description: direction of the transaction, either 'inbound' or 'outbound'
+      - name: user_id
+        description: unique identification per user (foreign key)
+      - name: created_date
+        description: datetime corresponding to the transaction's created date
+
+  - name: stg_neobank__users
+    description: notifications table cleaned by changing data types
+    columns:
+      - name: user_id
+        description: unique identification per user (primary key)
+        tests:
+          - unique
+          - not_null
+      - name: birth_year
+        description: user's birth year
+        tests:
+          - not_null 
+      - name: country
+        description: user's country of residence
+        tests:
+          - not_null
+      - name: city
+        description: user's city of residence
+        tests:
+          - not_null
+      - name: created_date
+        description: datetime for user's created date
+        tests:
+          - not_null
+      - name: user_settings_crypto_unlocked
+        description: integer indicating if the user has unlocked the cryptocurrencies in the app
+        tests:
+          - not_null
+      - name: crypto_unlocked
+        description: integer indicating if the user has unlocked the cryptocurrencies in the app
+      - name: plan
+        description: 6 different plans such as 'standard', 'premium', 'metal', 'metal_free', 'premium_offer', 'premium_free'
+        tests:
+          - not_null
+      - name: notifications_push
+        description: indicating if the user has accepted to receive marketing push notifications
+      - name: notifications_email
+        description: indicating if the user has accepted to receive marketing email notifications
+      - name: num_contacts
+        description: number of contacts the user has on neo bank
+      - name: num_referrals
+        description: number of users referred by the selected user
+      - name: num_successful_referrals
+        description: number of users successfully referred by the selected user (installed the app and are able to use the product)
+
+  - name: stg_neobank__codes_countries
+    description: additional ad-hoc table with countries full names to be joined to our initial dataset
+    columns:
+      - name: name
+        description: country's official full name
+      - name: alpha_2
+        description: country code (2 digit ISO)
+      - name: alpha_3
+      - name: country_code
+      - name: iso_3166_2
+      - name: region
+      - name: sub_region
+      - name: intermediate_region
+      - name: region_code
+      - name: sub_region_code
+      - name: intermediate_region_code
