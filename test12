@@ -1,0 +1,19 @@
+SELECT 
+  user_id,
+  COUNT(channel) AS nbr_notif,
+  COUNTIF(channel = 'SMS') AS SMS,
+  COUNTIF(channel = 'PUSH') AS PUSH,
+  COUNTIF(channel = 'EMAIL') AS EMAIL,
+  COUNTIF(status = 'SENT') as SENT,
+  COUNTIF(status = 'FAILED') as FAILED,
+  COUNTIF(status = 'FAILED')/COUNT(channel) as percent_failed,
+  CASE
+  WHEN COUNTIF(status = 'FAILED')/COUNT(channel) < 50 then 'good notification'
+  ELSE 'bad notification'
+  end as score
+FROM 
+  {{ ref('stg_neobank__notifications') }}
+GROUP BY 
+  user_id
+ORDER BY 
+    nbr_notif
