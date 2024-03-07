@@ -39,4 +39,3 @@ user_id
 FROM balance_update
 JOIN {{ ref('user_transaction_device') }}
 USING(user_id)
-WHERE user_id NOT LIKE 'user_4534'
