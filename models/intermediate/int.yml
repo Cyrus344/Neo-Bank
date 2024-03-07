@@ -62,5 +62,5 @@ models:
         description: average transaction by customer
       - name: total_amount
         description: total amount of money successfully tranferred wether inbound or outbound
-
-          
+  - name: int_user_cleaned
+    description: users_table but there are the actual names of the countries
