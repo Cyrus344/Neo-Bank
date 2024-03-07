@@ -30,7 +30,7 @@ models:
       - name: birth_year
         description: date of birth (year)
         tests:
-          - not_null:
+          - not_null
       - name: country
         description: country from where the transfer was made
       - name: city
