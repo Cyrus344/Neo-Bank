@@ -38,9 +38,9 @@ models:
       - name: created_date
         description: date and time when the transfer was made
       - name: crypto_unlocked
-        description: boolean of wether or not the cryptocurrency option was activated
+        description: boolean of whether or not the cryptocurrency option was activated
       - name: plan
-        description: the plan that thecustomer is currently on
+        description: the plan that the customer is currently on
       - name: notification_push
         description: column that says if the customer accepted to receive push notifications
       - name: notification_email
@@ -61,6 +61,6 @@ models:
       - name: avg_transaction
         description: average transaction by customer
       - name: total_amount
-        description: total amount of money successfully tranferred wether inbound or outbound
+        description: total amount of money successfully transferred whether inbound or outbound
   - name: int_user_cleaned
     description: users_table but there are the actual names of the countries
