@@ -5,6 +5,7 @@ user_id
 ,EXTRACT(QUARTER FROM created_date) AS quarter
 ,EXTRACT(YEAR FROM created_date) AS year
 FROM {{ ref('stg_neobank__users') }}
+WHERE EXTRACT(YEAR FROM created_date) not like 2019
 )
 , table as (
 SELECT
