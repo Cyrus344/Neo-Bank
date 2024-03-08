@@ -9,14 +9,14 @@ WITH month_year AS (
 ,cohort_month AS (
     SELECT
         user_id,
-        created_date,
+        created_date AS user_created_date,
         CONCAT(year,"/",month) AS cohort
     FROM month_year
 )
 , setup_join as (
 SELECT
 user_id
-,created_date
+,user_created_date
 ,cohort
 FROM cohort_month
 )
