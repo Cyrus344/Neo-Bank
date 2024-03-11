@@ -6,10 +6,10 @@ with michel as (
 )
 SELECT *
 ,CASE
-WHEN age < 25 THEN "young"
-WHEN age < 35 THEN "middle"
-WHEN age < 50 THEN "wise"
-else "senior"
+WHEN age < 25 THEN "18-25"
+WHEN age < 35 THEN "25-35"
+WHEN age < 50 THEN "35-50"
+else "50+"
 end as age_category
 ,CASE
 WHEN plan LIKE "Premium" THEN "paid"
