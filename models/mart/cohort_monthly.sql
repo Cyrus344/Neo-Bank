@@ -1,4 +1,4 @@
-with jak as (
+with subquery as (
 SELECT 
 DATE_TRUNC(stg_neobank__users.created_date, MONTH) AS user_month
 ,count(user_id) as nbr_clients
@@ -6,7 +6,7 @@ FROM {{ ref('stg_neobank__users') }}
 GROUP BY user_month
 )
 
-, lu as (
+, subquery2 as (
 SELECT 
 DATE_TRUNC(stg_neobank__users.created_date, MONTH) AS user_month
 ,DATE_TRUNC(stg_neobank__transactions.created_date, MONTH) AS transactions_month
@@ -23,7 +23,7 @@ ORDER BY user_month, transactions_month
 )
 SELECT *
 ,nbr_user/nbr_clients as percent_active_client
-FROM lu
-JOIN jak
+FROM subquery
+JOIN subquery2
 USING(user_month)
 ORDER BY user_month, transactions_month
