@@ -13,7 +13,7 @@ renamed as (
         birth_year,
         country,
         city,
-        EXTRACT (DATETIME FROM created_date) AS created_date, 
+        DATE(created_date) as created_date, 
         CAST(user_settings_crypto_unlocked AS BOOL) AS crypto_unlocked,
         INITCAP (plan) AS plan,
         CAST (attributes_notifications_marketing_push AS STRING) AS notifications_push,
