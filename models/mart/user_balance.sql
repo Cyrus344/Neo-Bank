@@ -39,4 +39,4 @@ user_id
 FROM balance_update
 LEFT JOIN {{ ref('user_transaction_device') }}
 USING(user_id)
-WHERE user_id NOT LIKE 'user_4534'
+WHERE user_id NOT LIKE 'user_4534' AND age != 50
