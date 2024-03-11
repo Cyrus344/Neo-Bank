@@ -1,5 +1,5 @@
 {{ config(materialized="table")}}
-with michel as (
+with age_cat as (
     SELECT *
     ,2019 - birth_year as age
     FROM {{ ref('int_user_transaction_2') }}
@@ -16,4 +16,4 @@ WHEN plan LIKE "Premium" THEN "paid"
 WHEN plan LIKE "Metal" THEN "paid"
 ELSE "free"
 end as plan_price
-FROM michel
+FROM age_cat
