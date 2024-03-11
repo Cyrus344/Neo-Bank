@@ -20,7 +20,7 @@ renamed as (
         ea_merchant_country as merch_country,
         direction,
         user_id,
-        DATETIME(created_date) as created_date
+        DATE(created_date) as created_date
 
     from source
 
