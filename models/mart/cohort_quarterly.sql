@@ -13,12 +13,12 @@ DATE_TRUNC(stg_neobank__users.created_date, quarter) AS user_quarter
 ,count(distinct(stg_neobank__users.user_id)) as nbr_user
 ,count(distinct(stg_neobank__transactions.transaction_id)) as nbr_transaction
 ,count(distinct(stg_neobank__transactions.transaction_id))/count(distinct(stg_neobank__users.user_id)) as t_per_user
-,date_diff(stg_neobank__transactions.created_date,stg_neobank__users.created_date,QUARTER) as quarter_diff
+,date_diff(stg_neobank__transactions.created_date,stg_neobank__users.created_date,MONTH) as month_diff
 FROM {{ ref('stg_neobank__transactions') }}
 JOIN {{ ref('stg_neobank__users') }}
 USING(user_id)
 where t_state = "COMPLETED"
-GROUP BY user_quarter, transactions_quarter, quarter_diff
+GROUP BY user_quarter, transactions_quarter, month_diff
 ORDER BY user_quarter, transactions_quarter
 )
 SELECT *
