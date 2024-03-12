@@ -103,8 +103,15 @@ USING(user_quarter,transactions_quarter)
 ORDER BY user_quarter,transactions_quarter
 )
 
+,subquery12 as (
 SELECT *
 FROM subquery4
 JOIN subquery11
 USING(user_quarter,transactions_quarter)
+ORDER BY user_quarter, transactions_quarter
+)
+SELECT *
+FROM subquery12
+JOIN subquery3
+USING(user_quarter, transactions_quarter)
 ORDER BY user_quarter, transactions_quarter
