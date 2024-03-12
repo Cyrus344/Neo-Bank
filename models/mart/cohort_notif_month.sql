@@ -1,18 +1,32 @@
 with subquery as(
 SELECT 
-DATE_TRUNC(user_transaction_device.created_date, MONTH) AS user_month
-,DATE_TRUNC(stg_neobank__notifications.created_date, MONTH) AS notifications_month
+CAST(stg_neobank__notifications.created_date AS datetime) as notif_date
+,CAST(stg_neobank__users.created_date AS datetime) as user_date
 ,channel
-,count(user_id) as nbr_notif
-,COUNTIF(status = 'SENT') AS nbr_sent
-,COUNTIF(status = 'FAILED') AS nbr_failed
-FROM {{ ref('user_transaction_device') }}
+,status
+FROM {{ ref('stg_neobank__users') }}
 LEFT JOIN {{ ref('stg_neobank__notifications') }}
 USING(user_id)
-WHERE channel NOT LIKE 'SMS'
-GROUP BY user_month,notifications_month,channel
-ORDER BY user_month,notifications_month,channel
 )
-SELECT *
-,nbr_sent/nbr_notif as percent_sent
+,subquery2 as(
+SELECT
+DATE_TRUNC(notif_date,MONTH) as notif_month
+,DATE_TRUNC(user_date,MONTH) as user_month
+,date_diff(notif_date,user_date,MONTH) as month_diff
+,channel
+,status
 FROM subquery
+)
+
+SELECT
+user_month
+,notif_month
+,month_diff
+,channel
+,count(month_diff) as nbr_notif
+,COUNTIF(status = 'SENT') AS nbr_sent
+,COUNTIF(status = 'FAILED') AS nbr_failed
+FROM subquery2
+WHERE channel NOT LIKE 'SMS'
+GROUP BY user_month,notif_month,month_diff,channel
+ORDER BY user_month,notif_month,month_diff,channel
