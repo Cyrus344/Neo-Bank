@@ -107,3 +107,4 @@ SELECT *
 FROM subquery4
 JOIN subquery11
 USING(user_month,transactions_month)
+ORDER BY user_month,transactions_month
