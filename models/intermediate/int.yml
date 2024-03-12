@@ -64,3 +64,5 @@ models:
         description: total amount of money successfully tranferred wether inbound or outbound
   - name: int_user_cleaned
     description: users_table but there are the actual names of the countries
+  - name: int_notifications_success
+    description: percentage of success for notifications sent grouped by user_id
