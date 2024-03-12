@@ -26,6 +26,7 @@ user_month
 ,count(month_diff) as nbr_notif
 ,COUNTIF(status = 'SENT') AS nbr_sent
 ,COUNTIF(status = 'FAILED') AS nbr_failed
+,SAFE_DIVIDE (COUNTIF(status = 'SENT'), count(month_diff)) as prct_sent 
 FROM subquery2
 WHERE channel NOT LIKE 'SMS'
 GROUP BY user_month,notif_month,month_diff,channel
