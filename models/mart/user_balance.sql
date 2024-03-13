@@ -36,7 +36,7 @@ user_id
 ,age
 ,nbr_transaction
 ,avg_transaction
+,crypto_unlocked
 FROM balance_update
 RIGHT JOIN {{ ref('user_transaction_device') }}
 USING(user_id)
-WHERE user_id NOT LIKE 'user_4534'
