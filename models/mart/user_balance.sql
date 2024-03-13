@@ -37,6 +37,6 @@ user_id
 ,nbr_transaction
 ,avg_transaction
 FROM balance_update
-LEFT JOIN {{ ref('user_transaction_device') }}
+RIGHT JOIN {{ ref('user_transaction_device') }}
 USING(user_id)
 WHERE user_id NOT LIKE 'user_4534'
