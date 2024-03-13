@@ -103,7 +103,15 @@ USING(user_month,transactions_month)
 ORDER BY user_month,transactions_month
 )
 
-SELECT *
+SELECT
+user_month
+,month_diff
+,nbr_user_per_month
+,nbr_user_per_cohort
+,percent_active_client
+,nbr_transaction_month
+,nbr_transaction_cohort
+,round(nbr_transaction_cohort/nbr_transaction_month,3) as percent_transaction_cohort
 FROM subquery4
 JOIN subquery11
 USING(user_month,transactions_month)
