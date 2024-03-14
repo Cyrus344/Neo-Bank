@@ -23,7 +23,7 @@ DATE_TRUNC(user_transaction_device.created_date, MONTH) AS user_month
 ,COUNTIF(brand = 'Apple') AS trs_Apple_cohort
 ,COUNTIF(brand = 'Android') AS trs_Android_cohort
 FROM {{ ref('stg_neobank__transactions') }}
-JOIN {{ ref('user_transaction_device') }}
+LEFT JOIN {{ ref('user_transaction_device') }}
 USING(user_id)
 where t_state LIKE 'COMPLETED'
 GROUP BY user_month, transactions_month, month_diff
@@ -47,7 +47,7 @@ ORDER BY user_month,transactions_month
 SELECT *
 ,nbr_user_per_cohort/nbr_user_per_month as percent_active_client
 FROM subquery
-JOIN subquery2
+LEFT JOIN subquery2
 USING(user_month)
 ORDER BY user_month, transactions_month
 )
@@ -61,7 +61,7 @@ DATE_TRUNC(stg_neobank__users.created_date, MONTH) AS user_month
 --,COUNTIF(brand = 'Android')
 ,brand
 FROM {{ ref('stg_neobank__users') }}
-JOIN {{ ref('stg_neobank__devices') }}
+LEFT JOIN {{ ref('stg_neobank__devices') }}
 USING(user_id)
 )
 
@@ -98,12 +98,73 @@ GROUP BY user_month,transactions_month
 
 ,subquery11 as (SELECT *
 FROM subquery10
-JOIN subquery9
+LEFT JOIN subquery9
 USING(user_month,transactions_month)
 ORDER BY user_month,transactions_month
 )
 
+,subquery13 as (
+SELECT
+DATE_TRUNC(stg_neobank__users.created_date, MONTH) AS user_month
+,DATE_TRUNC(stg_neobank__transactions.created_date, MONTH) AS transactions_month
+,user_id
+,CASE
+WHEN plan LIKE 'Premium' THEN 'paid'
+WHEN plan LIKE 'Metal' THEN 'paid'
+ELSE 'free'
+END AS plan_price
+FROM {{ ref('stg_neobank__transactions') }}
+LEFT JOIN {{ ref('stg_neobank__users') }}
+USING(user_id)
+)
+
+,subquery18 as (
+SELECT
+user_month
+,transactions_month
+,count(distinct(user_id)) as nbr_paid_user_cohort
+FROM subquery13
+WHERE plan_price LIKE 'paid'
+GROUP BY user_month,transactions_month
+ORDER BY user_month,transactions_month
+)
+
+,subquery16 as (
+SELECT
+user_month
+,transactions_month
+,count(distinct(user_id)) as nbr_free_user_cohort
+FROM subquery13
+WHERE plan_price LIKE 'free'
+GROUP BY user_month,transactions_month
+ORDER BY user_month,transactions_month
+)
+
+,subquery17 as (
 SELECT *
-FROM subquery4
-JOIN subquery11
+FROM subquery18
+LEFT JOIN subquery16
 USING(user_month,transactions_month)
+ORDER BY user_month,transactions_month
+)
+
+,subquery15 as(
+SELECT
+user_month
+,transactions_month
+,month_diff
+,nbr_user_per_month
+,nbr_user_per_cohort
+,percent_active_client
+,nbr_transaction_month
+,nbr_transaction_cohort
+,round(nbr_transaction_cohort/nbr_transaction_month,3) as percent_transaction_cohort
+FROM subquery4
+LEFT JOIN subquery11
+USING(user_month,transactions_month)
+)
+SELECT *
+FROM subquery15
+LEFT JOIN subquery17
+USING(user_month,transactions_month)
+ORDER BY user_month,month_diff
