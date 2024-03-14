@@ -108,6 +108,7 @@ SELECT
 DATE_TRUNC(stg_neobank__users.created_date, MONTH) AS user_month
 ,DATE_TRUNC(stg_neobank__transactions.created_date, MONTH) AS transactions_month
 ,user_id
+,t_state
 ,CASE
 WHEN plan LIKE 'Premium' THEN 'paid'
 WHEN plan LIKE 'Metal' THEN 'paid'
@@ -124,7 +125,7 @@ user_month
 ,transactions_month
 ,count(distinct(user_id)) as nbr_paid_user_cohort
 FROM subquery13
-WHERE plan_price LIKE 'paid'
+WHERE plan_price LIKE 'paid' AND t_state LIKE 'COMPLETED'
 GROUP BY user_month,transactions_month
 ORDER BY user_month,transactions_month
 )
@@ -135,7 +136,7 @@ user_month
 ,transactions_month
 ,count(distinct(user_id)) as nbr_free_user_cohort
 FROM subquery13
-WHERE plan_price LIKE 'free'
+WHERE plan_price LIKE 'free' AND t_state LIKE 'COMPLETED'
 GROUP BY user_month,transactions_month
 ORDER BY user_month,transactions_month
 )
