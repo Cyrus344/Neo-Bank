@@ -157,14 +157,19 @@ user_month
 ,nbr_user_per_month
 ,nbr_user_per_cohort
 ,percent_active_client
+,free_plan_month
+,paid_plan_month
 ,nbr_transaction_month
 ,nbr_transaction_cohort
+
 ,round(nbr_transaction_cohort/nbr_transaction_month,3) as percent_transaction_cohort
 FROM subquery4
 LEFT JOIN subquery11
 USING(user_month,transactions_month)
 )
 SELECT *
+,nbr_free_user_cohort/free_plan_month as percentage_active_free_plan
+,nbr_paid_user_cohort/paid_plan_month as percentage_active_paid_plan
 FROM subquery15
 LEFT JOIN subquery17
 USING(user_month,transactions_month)
