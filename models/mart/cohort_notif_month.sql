@@ -45,6 +45,7 @@ user_month
 ,prct_sent
 ,nbr_user_per_cohort
 ,percent_active_client
+,nbr_transaction_month
 FROM subquery24
 JOIN {{ ref('cohort_month_complete') }}
 USING(user_month,transactions_month)
