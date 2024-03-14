@@ -157,6 +157,8 @@ user_month
 ,nbr_user_per_month
 ,nbr_user_per_cohort
 ,percent_active_client
+,free_plan_month
+,paid_plan_month
 ,nbr_transaction_month
 ,nbr_transaction_cohort
 ,round(nbr_transaction_cohort/nbr_transaction_month,3) as percent_transaction_cohort
