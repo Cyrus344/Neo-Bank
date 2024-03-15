@@ -22,7 +22,7 @@ ORDER BY transactions_month
 *
 ,sum(nbr_new_clients) OVER (ORDER BY user_month ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) as cumulative_users
 ,SAFE_DIVIDE (active_users, sum(nbr_new_clients) OVER (ORDER BY user_month ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)) as prct_active_users
-,SAFE_DIVIDE (nbr_transaction, (SAFE_DIVIDE (active_users, sum(nbr_new_clients) OVER (ORDER BY user_month ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)))) as avg_nbr_transactions
+,SAFE_DIVIDE (nbr_transaction,(sum(nbr_new_clients) OVER (ORDER BY user_month ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW))) as avg_nbr_transactions
 FROM subquery2 as subquery2
 LEFT JOIN subquery as subquery
 ON subquery.user_month = subquery2.transactions_month
