@@ -1,7 +1,7 @@
 WITH subquery AS (
 SELECT 
 DATE_TRUNC(stg_neobank__users.created_date, MONTH) AS user_month
-,count(user_id) as nbr_clients
+,count(user_id) as nbr_new_clients
 FROM {{ ref('stg_neobank__users') }}
 GROUP BY user_month
 )
@@ -18,11 +18,29 @@ GROUP BY transactions_month
 ORDER BY transactions_month
 )
 
-SELECT 
+,subquery3 AS (SELECT 
 *
-,sum(nbr_clients) OVER (ORDER BY user_month ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) as cumulative_users
-,SAFE_DIVIDE (active_users, sum(nbr_clients) OVER (ORDER BY user_month ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)) as prct_active_users
+,sum(nbr_new_clients) OVER (ORDER BY user_month ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) as cumulative_users
+,SAFE_DIVIDE (active_users, sum(nbr_new_clients) OVER (ORDER BY user_month ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)) as prct_active_users
+,SAFE_DIVIDE (nbr_transaction, (SAFE_DIVIDE (active_users, sum(nbr_new_clients) OVER (ORDER BY user_month ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)))) as avg_nbr_transactions
 FROM subquery2 as subquery2
 LEFT JOIN subquery as subquery
 ON subquery.user_month = subquery2.transactions_month
+ORDER BY transactions_month
+)
+
+,nbr_diff_campaings AS (
+SELECT
+DATE_TRUNC(created_date, MONTH) AS notifications_month
+,COUNT (DISTINCT reason) as nbr_campaigns
+FROM {{ ref('stg_neobank__notifications') }}
+WHERE status = "SENT"
+GROUP BY notifications_month
+ORDER BY notifications_month
+)
+
+SELECT *
+FROM subquery3 as subquery3
+LEFT JOIN nbr_diff_campaings as notif
+ON subquery3.transactions_month = notif.notifications_month
 ORDER BY transactions_month
